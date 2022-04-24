@@ -32,13 +32,17 @@ namespace com.github.yukon39.IISAdministration
             set => applicationPool.Enable32BitAppOnWin64 = value;
         }
 
-        [ContextProperty("ManagedPipelineMode", "Разрешить32БитныеПриложения")]
+        [ContextProperty("ManagedPipelineMode", "РежимУправляемогоКонтейнера")]
         public string ManagedPipelineMode
             => applicationPool.ManagedPipelineMode.ToString();
 
-        [ContextProperty("ManagedRuntimeVersion", "Разрешить32БитныеПриложения")]
+        [ContextProperty("ManagedRuntimeVersion", "ВерсияУправляемойСреды")]
         public string ManagedRuntimeVersion
             => applicationPool.ManagedRuntimeVersion;
+
+        [ContextProperty("AutoStart", "Автозапуск")]
+        public bool AutoStart
+            => applicationPool.AutoStart;
 
         [ContextProperty("State", "Состояние")]
         public string State

@@ -7,19 +7,27 @@ namespace com.github.yukon39.IISAdministration
     public class IISServerManager : AutoContext<IISServerManager>, IObjectWrapper
     {
         private readonly ServerManager serverManager;
+        private readonly IISApplicationPoolCollection applicationPools;
 
         [ScriptConstructor]
         public static IISServerManager ScriptConstructor()
             => new IISServerManager();
 
         private IISServerManager()
-            => serverManager = new ServerManager();
+        {
+            serverManager = new ServerManager();
+            applicationPools = new IISApplicationPoolCollection(serverManager.ApplicationPools);
+        }
 
         [ContextMethod("CommitChanges", "ЗаписатьИзменения")]
         public void CommitChanges()
             => serverManager.CommitChanges();
 
-        public object UnderlyingObject 
+        [ContextProperty("ApplicationPools", "ПулыПриложений")]
+        public IISApplicationPoolCollection ApplicationPools
+            => applicationPools;
+
+        public object UnderlyingObject
             => serverManager;
     }
 }

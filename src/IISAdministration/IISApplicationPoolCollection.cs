@@ -1,5 +1,7 @@
 ﻿using Microsoft.Web.Administration;
+using ScriptEngine.Machine;
 using ScriptEngine.Machine.Contexts;
+using ScriptEngine.Machine.Values;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,10 @@ namespace com.github.yukon39.IISAdministration
         public int Count()
             => applicationPools.Count;
 
+        [ContextMethod("Get", "Получить")]
+        public IISApplicationPool Get(string name)
+            => collection.FirstOrDefault(x => x.Name == name);
+
         [ContextMethod("Add", "Добавить")]
         public IISApplicationPool Add(string name)
         {
@@ -42,6 +48,18 @@ namespace com.github.yukon39.IISAdministration
             var appPool = (ApplicationPool)item.UnderlyingObject;
             applicationPools.Remove(appPool);
             collection.Remove(item);
+        }
+
+        public override IValue GetIndexedValue(IValue index)
+        {
+            if (index.DataType != DataType.String)
+                throw RuntimeException.InvalidArgumentType();
+
+            var pool = Get(index.AsString());
+            if (pool is IISApplicationPool)
+                return pool;
+            else
+                return UndefinedValue.Instance;
         }
 
         public IEnumerator<IISApplicationPool> GetEnumerator()

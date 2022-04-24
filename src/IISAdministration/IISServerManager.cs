@@ -1,5 +1,6 @@
 ﻿using Microsoft.Web.Administration;
 using ScriptEngine.Machine.Contexts;
+using System;
 
 namespace com.github.yukon39.IISAdministration
 {
@@ -7,16 +8,28 @@ namespace com.github.yukon39.IISAdministration
     public class IISServerManager : AutoContext<IISServerManager>, IObjectWrapper
     {
         private readonly ServerManager serverManager;
-        private readonly IISApplicationPoolCollection applicationPools;
+        private readonly Lazy<IISApplicationPoolCollection> applicationPools;
 
         [ScriptConstructor]
         public static IISServerManager ScriptConstructor()
             => new IISServerManager();
 
+        [ScriptConstructor]
+        public static IISServerManager ScriptConstructor(string applicationHostConfigurationPath)
+            => new IISServerManager(applicationHostConfigurationPath);
+
+        private IISServerManager(string applicationHostConfigurationPath)
+            : this(new ServerManager(applicationHostConfigurationPath)) { }
+
         private IISServerManager()
+            : this(new ServerManager()) { }
+
+        private IISServerManager(ServerManager serverManager)
         {
-            serverManager = new ServerManager();
-            applicationPools = new IISApplicationPoolCollection(serverManager.ApplicationPools);
+            this.serverManager = new ServerManager();
+            applicationPools = new Lazy<IISApplicationPoolCollection>(
+                () => new IISApplicationPoolCollection(serverManager.ApplicationPools)
+            );
         }
 
         [ContextMethod("CommitChanges", "ЗаписатьИзменения")]
@@ -25,7 +38,7 @@ namespace com.github.yukon39.IISAdministration
 
         [ContextProperty("ApplicationPools", "ПулыПриложений")]
         public IISApplicationPoolCollection ApplicationPools
-            => applicationPools;
+            => applicationPools.Value;
 
         public object UnderlyingObject
             => serverManager;

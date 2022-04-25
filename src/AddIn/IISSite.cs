@@ -1,5 +1,6 @@
 ﻿using Microsoft.Web.Administration;
 using ScriptEngine.Machine.Contexts;
+using System;
 
 namespace com.github.yukon39.IISAdministration
 {
@@ -7,9 +8,15 @@ namespace com.github.yukon39.IISAdministration
     public class IISSite : AutoContext<IISSite>, IObjectWrapper
     {
         private readonly Site site;
+        private readonly Lazy<IISApplicationCollection> applications;
 
-        public IISSite(Site site) 
-            => this.site = site;
+        public IISSite(Site site)
+        {
+            this.site = site;
+            applications = new Lazy<IISApplicationCollection>(
+                () => new IISApplicationCollection(site.Applications)
+                );
+        }
 
         public object UnderlyingObject 
             => site;
@@ -27,6 +34,10 @@ namespace com.github.yukon39.IISAdministration
         [ContextProperty("ID", "Идентификатор")]
         public decimal Id
             => site.Id;
+
+        [ContextProperty("Applications", "Приложения")]
+        public IISApplicationCollection Applications
+            => applications.Value;
 
         [ContextProperty("State", "Состояние")]
         public string State

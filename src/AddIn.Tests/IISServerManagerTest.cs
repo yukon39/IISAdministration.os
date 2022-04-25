@@ -8,7 +8,7 @@ namespace com.github.yukon39.IISAdministration
         public void TestApplicationPools()
         {
             // Given
-            var config = TestsUtils.FixturePath("applicationHost.config");
+            var config = TestsUtils.ApplicationConfig();
             var serverManager = IISServerManager.ScriptConstructor(config);
 
             // When

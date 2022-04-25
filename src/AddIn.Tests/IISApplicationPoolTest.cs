@@ -8,7 +8,7 @@ namespace com.github.yukon39.IISAdministration
         public void Test_Rename()
         {
             // Given
-            var config = TestsUtils.FixturePath("applicationHost.config");
+            var config = TestsUtils.ApplicationConfig();
             var serverManager = IISServerManager.ScriptConstructor(config);
             var pools = serverManager.ApplicationPools;
             var pool = pools.Get("EnterpriseAppPool");

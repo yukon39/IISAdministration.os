@@ -8,7 +8,7 @@ namespace com.github.yukon39.IISAdministration
         public void Test_Count()
         {
             // Given
-            var config = TestsUtils.FixturePath("applicationHost.config");
+            var config = TestsUtils.ApplicationConfig();
             var serverManager = IISServerManager.ScriptConstructor(config);
             var pools = serverManager.ApplicationPools;
 
@@ -23,7 +23,7 @@ namespace com.github.yukon39.IISAdministration
         public void Test_Get()
         {
             // Given
-            var config = TestsUtils.FixturePath("applicationHost.config");
+            var config = TestsUtils.ApplicationConfig();
             var serverManager = IISServerManager.ScriptConstructor(config); ;
             var pools = serverManager.ApplicationPools;
             var poolName = "EnterpriseAppPool";
@@ -40,7 +40,7 @@ namespace com.github.yukon39.IISAdministration
         public void Test_Add()
         {
             // Given
-            var config = TestsUtils.FixturePath("applicationHost.config");
+            var config = TestsUtils.ApplicationConfig();
             var serverManager = IISServerManager.ScriptConstructor(config);
             var pools = serverManager.ApplicationPools;
             var poolName = "TestApplicationPool";
@@ -58,7 +58,7 @@ namespace com.github.yukon39.IISAdministration
         public void Test_Remove()
         {
             // Given
-            var config = TestsUtils.FixturePath("applicationHost.config");
+            var config = TestsUtils.ApplicationConfig();
             var serverManager = IISServerManager.ScriptConstructor(config);
             var pools = serverManager.ApplicationPools;
             var pool = pools.Get("EnterpriseAppPool");

@@ -13,7 +13,7 @@ namespace com.github.yukon39.IISAdministration
             var sites = serverManager.Sites;
 
             // When
-            var site = (IISSite)sites.First();
+            var site = sites.First();
 
             // Then
             Assert.AreEqual(1, site.Id);

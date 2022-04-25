@@ -32,7 +32,7 @@ namespace com.github.yukon39.IISAdministration
 
             // Then
             Assert.IsInstanceOf<IISSite>(site);
-            Assert.AreEqual(1, ((IISSite)site).Id);
+            Assert.AreEqual(1, site.Id);
         }
 
         [Test]

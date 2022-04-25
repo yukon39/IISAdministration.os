@@ -37,6 +37,8 @@ namespace com.github.yukon39.IISAdministration
                 site = Get(value.AsNumber());
             else if (value.DataType == DataType.String)
                 site = Get(value.AsString());
+            else
+                throw RuntimeException.InvalidArgumentType();
 
             if (site is IISSite)
                 return site;
@@ -51,14 +53,8 @@ namespace com.github.yukon39.IISAdministration
             => collection.FirstOrDefault(x => x.Id == Id);
 
         [ContextMethod("First", "Первый")]
-        public IValue First()
-        {
-            var site = collection.FirstOrDefault( x => x.Id == 1);
-            if (site is IISSite)
-                return site;
-            else
-                return UndefinedValue.Instance;
-        }
+        public IISSite First()
+            => collection.FirstOrDefault( x => x.Id == 1);
 
         public override IValue GetIndexedValue(IValue index)
             => Get(index);

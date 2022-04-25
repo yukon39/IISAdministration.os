@@ -9,6 +9,7 @@ namespace com.github.yukon39.IISAdministration
     {
         private readonly ServerManager serverManager;
         private readonly Lazy<IISApplicationPoolCollection> applicationPools;
+        private readonly Lazy<IISSiteCollection> sites;
 
         [ScriptConstructor]
         public static IISServerManager ScriptConstructor()
@@ -29,7 +30,10 @@ namespace com.github.yukon39.IISAdministration
             this.serverManager = new ServerManager();
             applicationPools = new Lazy<IISApplicationPoolCollection>(
                 () => new IISApplicationPoolCollection(serverManager.ApplicationPools)
-            );
+                );
+            sites = new Lazy<IISSiteCollection>(
+                () => new IISSiteCollection(serverManager.Sites)
+                );
         }
 
         [ContextMethod("CommitChanges", "ЗаписатьИзменения")]
@@ -39,6 +43,10 @@ namespace com.github.yukon39.IISAdministration
         [ContextProperty("ApplicationPools", "ПулыПриложений")]
         public IISApplicationPoolCollection ApplicationPools
             => applicationPools.Value;
+
+        [ContextProperty("Sites", "Сайты")]
+        public IISSiteCollection Sites
+            => sites.Value;
 
         public object UnderlyingObject
             => serverManager;

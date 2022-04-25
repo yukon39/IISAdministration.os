@@ -18,9 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="fixtures\applicationHost.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Include="..\..\fixtures\**\*.*">
+      <Link>fixtures\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="..\..\fixtures\applicationHost.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
 </Project>

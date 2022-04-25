@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ArtifactsRoot>$(MSBuildProjectDirectory)/../bin</ArtifactsRoot>
+    <Solution>$(MSBuildProjectDirectory)/../src/IISAdministration.sln</Solution>
+    <Configuration>Release</Configuration>
+    <Platform>Any CPU</Platform>
+  </PropertyGroup>
+
+  <Target Name="Make">
+    <MSBuild Projects="$(Solution)" Targets="restore;Build" Properties="Configuration=$(Configuration);Platform=$(Platform);" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)/../src/AddIn/bin/$(Configuration)/net48/IISAdministration.AddIn.dll"
+      DestinationFolder="$(ArtifactsRoot)" />
+  </Target>
+
+</Project>

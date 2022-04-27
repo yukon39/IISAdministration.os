@@ -10,6 +10,7 @@ namespace com.github.yukon39.IISAdministration
         private readonly ServerManager serverManager;
         private readonly Lazy<IISApplicationPoolCollection> applicationPools;
         private readonly Lazy<IISSiteCollection> sites;
+        private readonly Lazy<ISAPIRestrictionCollection> restrictions;
 
         [ScriptConstructor]
         public static IISServerManager ScriptConstructor()
@@ -34,6 +35,9 @@ namespace com.github.yukon39.IISAdministration
             sites = new Lazy<IISSiteCollection>(
                 () => new IISSiteCollection(serverManager.Sites)
                 );
+            restrictions = new Lazy<ISAPIRestrictionCollection>(
+                () => new ISAPIRestrictionCollection(serverManager)
+                );
         }
 
         [ContextMethod("CommitChanges", "ЗаписатьИзменения")]
@@ -47,6 +51,10 @@ namespace com.github.yukon39.IISAdministration
         [ContextProperty("Sites", "Сайты")]
         public IISSiteCollection Sites
             => sites.Value;
+
+        [ContextProperty("ISAPIRestrictions", "ОграниченияISAPI")]
+        public ISAPIRestrictionCollection ISAPIRestrictions
+            => restrictions.Value;
 
         public object UnderlyingObject
             => serverManager;
